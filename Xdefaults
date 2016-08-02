@@ -1,8 +1,6 @@
 !urxvt
 URxvt.termName: rxvt-256color
-! URxvt.font: xft:SourceCodePro:pixelsize=17
-! URxvt.font: xft:NerdFontComplete:pixelsize=17
-! URxvt.font: xft:SauceCodePro:pixelsize=17
+URxvt.font: xft:SourceCodeProMedium:pixelsize=17:antialias=true:hinting=true,xft:SauceCodePro:pixelsize=17:antialias=true:hinting=true
 URxvt.perl-ext-common: default,matcher
 URxvt.matcher.pattern.1: \\B(/\\S+?):(\\d+)(?=:|$)
 URxvt.urlLauncher: firefox
