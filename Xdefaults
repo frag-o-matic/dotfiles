@@ -1,0 +1,104 @@
+!urxvt
+URxvt.termName: rxvt-256color
+! URxvt.font: xft:SourceCodePro:pixelsize=17
+! URxvt.font: xft:NerdFontComplete:pixelsize=17
+! URxvt.font: xft:SauceCodePro:pixelsize=17
+URxvt.perl-ext-common: default,matcher
+URxvt.matcher.pattern.1: \\B(/\\S+?):(\\d+)(?=:|$)
+URxvt.urlLauncher: firefox
+URxvt.matcher.launcher.1: nvim +$2 $1
+URxvt.matcher.button: 1
+URxvt.scrollBar: false
+URxvt.internalBorder: 1
+URxvt.saveLines: 8192
+URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
+URxvt*scrollTtyKeypress: true
+URxvt.depth: 32
+URxvt.transparent: true
+URxvt.shading: 30
+URxvt.fading: 0
+
+!urxvt vim fixes
+URxvt.keysym.C-Up: \033[1;5A]
+URxvt.keysym.C-Down: \033[1;5B]
+URxvt.keysym.C-Right: \033[1;5C] 
+URxvt.keysym.C-Left: \033[1;5D]
+URxvt.keysym.C-Prior: \033[5;5~] 
+URxvt.keysym.C-Next: \033[6;5~]
+URxvt.keysym.C-Home: \033[7;5~] 
+URxvt.keysym.C-End: \033[8;5~]
+URxvt.iso14755: False
+
+! colors -----------
+URxvt.borderColor: #262626
+
+! special
+*.foreground:   #bcbcbc
+*.background:   #262626
+*.cursorColor:  #009000
+
+! black
+*.color0:       #1c1c1c
+*.color8:       #444444
+
+! red
+*.color1:       #af5f5f
+*.color9:       #ff8700
+
+! green
+*.color2:       #5f875f
+*.color10:      #87af87
+
+! yellow
+*.color3:       #87875f
+*.color11:      #7c7c31
+
+! blue
+*.color4:       #5f87af
+*.color12:      #8fafd7
+
+! magenta
+*.color5:       #5f5f87
+*.color13:      #8787af
+
+! cyan
+*.color6:       #5f8787
+*.color14:      #5fafaf
+
+! white
+*.color7:       #6c6c6c
+*.color15:      #ffffff
+
+! xscreensaver ---------------------------------------------------------------
+
+!font settings
+xscreensaver.Dialog.headingFont:        -*-dina-bold-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.bodyFont:           -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.labelFont:          -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.unameFont:          -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.buttonFont:         -*-dina-bold-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.dateFont:           -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.passwd.passwdFont:         -*-dina-bold-r-*-*-10-*-*-*-*-*-*-*
+
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #EDEDED
+xscreensaver.Dialog.background:         #202020
+xscreensaver.Dialog.topShadowColor:     #202024
+xscreensaver.Dialog.bottomShadowColor:  #202024
+xscreensaver.Dialog.Button.foreground:  #EDEDFF
+xscreensaver.Dialog.Button.background:  #444
+!username/password input box and date text colour
+xscreensaver.Dialog.text.foreground:    #EDEDFF
+xscreensaver.Dialog.text.background:    #444
+xscreensaver.Dialog.internalBorderWidth:24
+xscreensaver.Dialog.borderWidth:        20
+xscreensaver.Dialog.shadowThickness:    2
+
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #A9B7C4
+xscreensaver.passwd.thermometer.background:  #202020
+xscreensaver.passwd.thermometer.width:       8
+
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %I:%M%P %a %b %d, %Y
