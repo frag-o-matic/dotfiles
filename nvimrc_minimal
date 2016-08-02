@@ -1,0 +1,193 @@
+" general vim settings & options
+syntax on                                                   " turn on syntax highlighting
+filetype plugin indent on                                   " filetype based indentation
+set nolazyredraw
+set ttimeoutlen=100
+set ttyfast
+set wildmode=longest,full                                   " autocomplete for filenames 
+set wildmenu                                                " enable wildmenu (with mode set above)
+set hidden                                                  " hide buffers instead of closing them
+set laststatus=2                                            " display status line with filepath
+set nowrap                                                  " don't wrap lines
+set backspace=indent,eol,start                              " backspace over everything in insert mode
+set number                                                  " always show line numbers
+set ignorecase                                              " ignore case when searching
+set smartcase                                               " ignore case if search pattern is all lowercase,case-sensitive otherwise
+set smarttab                                                " insert tabs on the start of a line according to shiftwidth, not tabstop
+set tabstop=4                                               " a tab is four spaces
+set shiftwidth=4                                            " number of spaces to use for autoindenting
+set softtabstop=4                                           " Sets the number of columns for a TAB to 4
+set shiftround                                              " use multiple of shiftwidth when indenting with '<' and '>', i.e when indenting at 3 spaces go to 4, not 5
+set expandtab                                               " replace tabs with spaces
+set autoindent                                              " always set autoindenting on
+set cindent                                                 " stricter indenting for C family
+set smartindent                                             " smart indenting mode (auto indent for new lines)
+set copyindent                                              " copy the previous indentation on autoindenting
+set hlsearch                                                " highlight search terms
+set incsearch                                               " show search matches as you type
+set nobackup                                                " disable backup file
+set noswapfile                                              " disable swap (*.swp) file
+set smartcase                                               " enable smart-case searching (lowercase matches both)
+set history=1000                                            " remember more commands and search history
+set title                                                   " change the terminal's title
+set visualbell                                              " don't beep
+set noerrorbells                                            " more don't beep
+set splitbelow                                              " natural window splitting
+set splitright                                              " natural window splitting
+set autoread                                                " reload file changes
+set nostartofline                                           " don't jump to first column
+set shortmess=at                                            " shorter error messages
+set spelllang=en                                            " set English as spell check lang
+set nospell                                                 " turn spell check off
+set iskeyword+=_                                            " treat _ as a part of a word
+set matchpairs+=<:>                                         " treat < and > like other brackets
+set noerrorbells                                            " don't make noise...
+set novisualbell                                            " ... and don't blink either
+set numberwidth=5                                           " line nums run upto 99999
+set esckeys                                                 " allow arrow keys with ESC keycode
+set synmaxcol=250                                           " disable syntax highlight beyond col 120
+set noshowmode                                              " hide the status line, use lightline instead
+set nostartofline                                           " stop cursor from jumping to col 0
+set clipboard+=unnamed,unnamedplus                          " clipboard support on linux
+
+" basic autocomplete
+set omnifunc=syntaxcomplete#Complete
+
+" fix <INS> Key behaviour in INSERT mode
+imap <Insert> <Nop>
+
+" folding stuff
+set nofoldenable                                            " Turn off auto-folding
+set foldlevel=99                                            " ensure folds are open
+set foldlevelstart=99                                       " ensure folds are open x2
+set foldmethod=syntax                                       " Fold using syntax
+set foldopen=block,hor,mark,percent,quickfix,tag            " define what movements open folds
+set fillchars=fold:\                                        " padding char for folds, there's a trailing space after the \   
+set foldnestmax=10                                          " max 10 levels of nesting
+nnoremap <space> za                                         " Toggle folds with space key
+
+" undo files
+set undolevels=10000
+set undoreload=10000
+set undodir=$HOME/.vim/.undos
+set undofile
+
+" copy and paste stuff
+set pastetoggle=<F2>                                        " toggle for paste-mode
+nnoremap Y "*yy
+vnoremap Y "*y
+"nnoremap p "*p
+"nnoremap P "*P
+
+" common key mappings       
+cmap w!! w !sudo tee > /dev/null %
+let mapleader=","                                           " set leader key to comma
+nnoremap <silent> <leader>. :nohlsearch<CR>                 " clear search term ighlighting
+nnoremap <silent> <leader><leader> <c-^>                    " quickly switch between current & prev buffer
+
+" show list of open buffers and prepare to switch
+map <leader>b :ls<CR>:b<space>
+inoremap jk <Esc>                                           " use jk to simulate ESC key
+hi link cTodo SpellBad                                      " highlight TODO/FIXME similar to spelling mistakes
+nnoremap <silent> <leader>e :e.<CR>                         " show list of files in current dir
+
+" visual mode remaps        
+nmap gV `[v`]                                               " visual reselect last changed area
+vnoremap <C-j> :m '>+1<CR>gv=gv                             " move visual block down 1 line
+vnoremap <C-k> :m '<-2<CR>gv=gv                             " move visual block up 1 line
+
+" spell-check stuff
+map <F8> :setlocal spell!<CR>                               " F8 to toggle spell check on/off
+inoremap <F5> <C-\><C-O>:setlocal spell! spell?<CR>         " (see above)
+nnoremap zn ]s                                              " next misspelled word
+nnoremap zp [s                                              " prev misspelled word
+
+" Window naviation remap
+nnoremap <C-S-J> <C-W><C-J>
+nnoremap <C-S-K> <C-W><C-K>
+nnoremap <C-S-L> <C-W><C-L>
+nnoremap <C-S-H> <C-W><C-H>
+
+" DiffMode remaps
+nnoremap <expr> <C-J> &diff ? ']c' : '<C-W><C-J>'
+nnoremap <expr> <C-K> &diff ? '[c' : '<C-W><C-K>'
+
+" QuickFix stuff
+function! GetBufferList()
+  redir =>buflist
+  silent! ls
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+nnoremap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
+"nnoremap <silent> [ :cnext<CR>:norm! zz<CR>
+"nnoremap <silent> ] :cprev<CR>:norm! zz<CR>
+
+" Autowrap QuickFix
+augroup quickfix
+    autocmd!
+    autocmd FileType qf setlocal wrap
+augroup END
+
+"Function to get rid of trailing spaces
+fun! StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+"function to adjust colorscheme for transparency
+fun! AdaptColorscheme()
+    highlight clear CursorLine
+    highlight Normal ctermbg=none
+    highlight LineNr ctermbg=none
+    highlight Folded ctermbg=none
+    highlight NonText ctermbg=none
+    highlight SpecialKey ctermbg=none
+    highlight VertSplit ctermbg=none
+    highlight SignColumn ctermbg=none
+endfun
+autocmd VimEnter * call AdaptColorscheme()
+
+" gvim Stuff
+if has('gui_running')
+    if has("win16") || has('win32') || has ('win64')
+        set guifont=Source\ Code\ Pro\ Medium:h13
+    else
+        set guifont=Source\ Code\ Pro\ Medium\ 13
+    endif
+  set guioptions-=m  "remove menu bar
+  set guioptions-=T  "remove toolbar
+  set guioptions-=r  "remove right-hand scroll bar
+  set guioptions-=L  "remove left-hand scroll bar
+endif
+
+" Copy filename to clipboard
+nmap <leader>cs :let @*=expand("%")<CR>
+
+
+"color scheme stuff
+set t_Co=256
+set background=dark
+
